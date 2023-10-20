@@ -69,7 +69,6 @@ namespace RPGM.Events
             Debug.Log("NPC info: " + npc);
             Debug.Log("Sprite position: " + position);
             model.dialog.Show(position, ci.text);
-            // model.dialog.Show(position, "Molly is a superstar: " + netConversation.webWords);
             var animator = gameObject.GetComponent<Animator>();
             if (animator != null)
             {
@@ -151,7 +150,7 @@ namespace RPGM.Events
             }
 
             //if conversation has an icon associated, this will display it.
-            model.dialog.SetIcon(ci.image);
+            model.dialog.SetIcon(ci.image); 
         }
 
     }

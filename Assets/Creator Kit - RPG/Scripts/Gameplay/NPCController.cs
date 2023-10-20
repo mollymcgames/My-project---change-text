@@ -106,6 +106,21 @@ namespace RPGM.Gameplay
             Image image = imgObject.AddComponent<Image>();
             image.sprite = Sprite.Create(texture, new Rect(0, 0, 2, 2), Vector2.zero, 1f);
             imgObject.transform.SetParent(canvas.transform);
+
+
+            //ONLY DISPLAY FOR 2 SECONDS //OK IN HINDSIGHT IT TAKES 2 SECONDS FOR THE IMAGE TO EVEN LOAD SO THIS IS A BIT POINTLESS
+            //TIME NEEDS TO BE MORE LIKE 7-10 SECONDS 
+            StartCoroutine(DisplayImageForDuration(11f));
+        }
+
+        private IEnumerator DisplayImageForDuration(float duration){
+            yield return new WaitForSeconds(duration);
+            //remove the image from the screen
+            GameObject imageObject = GameObject.Find("giftPicture"); ///TODO: This is a bit of a hack, as we're assuming there's only one image on the screen at a time.
+            if (imageObject != null)
+            {
+                Destroy(imageObject);
+            }
         }
 
         public void OnCollisionEnter2D(Collision2D collision)
@@ -149,7 +164,7 @@ namespace RPGM.Gameplay
                     else
                     {
                         Debug.Log("One Dalle coming up!");
-                        AddDalleImageToScreen(model.pictureInput, this.FAKE_DALLE);
+                        AddDalleImageToScreen(model.pictureInput, this.FAKE_DALLE); //only show for 2s
                     }
                     switch ( currentConversationIndex) {
                         case(0):

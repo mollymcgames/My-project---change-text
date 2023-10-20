@@ -26,7 +26,7 @@ public class PictureInput : MonoBehaviour
         Debug.Log("Input string: "+pictureInput);
 
         GameModel model = Schedule.GetModel<GameModel>();
-        model.pictureInput = pictureInput;
+        model.pictureInput = pictureInput; 
 
     }
 }
