@@ -106,6 +106,8 @@ namespace RPGM.Gameplay
             Image image = imgObject.AddComponent<Image>();
             image.sprite = Sprite.Create(texture, new Rect(0, 0, 2, 2), Vector2.zero, 1f);
             imgObject.transform.SetParent(canvas.transform);
+            imgObject.tag = "giftPicture"; // Assigning the "giftPicture" tag to the GameObject
+            imgObject.transform.SetParent(canvas.transform);
 
 
             //ONLY DISPLAY FOR 2 SECONDS //OK IN HINDSIGHT IT TAKES 2 SECONDS FOR THE IMAGE TO EVEN LOAD SO THIS IS A BIT POINTLESS

@@ -37,19 +37,12 @@ namespace RPGM.Events
     {        
 
         // this  is the flag that turns on and off api connectivity 
-        bool apiConsumeMode = true;
+        bool apiConsumeMode = false; //turn off or on for internet connectivity
         
         public TMP_Text textmesh;
 
         public string prompt = "Your Prompt Here";
-
-        //If using chatgpt
-        // //The engine you want to use (keep in mind that it has to be the exact name of the engine)
-        // private string model = "text-davinci-003";
-        // public float temperature = 0.5f;
-        // public int maxTokens = 200;
         
-
 
         //the Make request is an asynchronous operation which prevents blocking
         public void GetTheConversation(NPCController npc, ConversationScript conversation, ConversationPiece originalPiece, string conversationItemKey, string llmSeed)
