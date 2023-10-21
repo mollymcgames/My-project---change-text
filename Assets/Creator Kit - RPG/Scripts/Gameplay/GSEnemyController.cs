@@ -11,7 +11,9 @@ public class GSEnemyController : MonoBehaviour
     [SerializeField]
     private float speed;
     [SerializeField]
-    private float range;
+    private float maxRange; // The maximum range at which the enemy can detect the target
+    [SerializeField]
+    private float minRange; // The minimum range at which the enemy can detect the target
     // Start is called before the first frame update
 
     private bool shouldChase = false; // Flag to determine whether the enemy should chase the target
@@ -43,13 +45,25 @@ public class GSEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FollowPlayer();
+        if (Vector3.Distance(target.position, transform.position) <= maxRange && Vector3.Distance(target.position, transform.position) >= minRange ) // Check if the distance between the enemy and the target is less than the range
+        {
+            FollowPlayer(); // Call the FollowPlayer function
+            shouldChase = true; // If the distance is less than the range, set shouldChase to true
+        }
+        else
+        {
+            myAnim.SetBool("isMoving", false);
+            shouldChase = false; // If the distance is greater than the range, set shouldChase to false
+        }
     }
 
     public void FollowPlayer()
     {
         if (shouldChase && target != null) // Check if shouldChase is true and if the target is not null
         {
+            myAnim.SetBool("isMoving", true);
+            myAnim.SetFloat("moveX", (target.position.x - transform.position.x));
+            myAnim.SetFloat("moveY", (target.position.y - transform.position.y));
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
         }
     }    
