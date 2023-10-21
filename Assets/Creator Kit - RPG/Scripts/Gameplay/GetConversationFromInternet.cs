@@ -33,15 +33,16 @@ namespace RPGM.Events
         {            
             Debug.Log("We are in GetConversationFromInternet.Execute()");
             Debug.Log("Conversation items count: "+conversation.items.Count);
-            Debug.Log("conversation item key: " +conversationItemKey );
+            Debug.Log("Received conversationItemKey in GetConversationFromInternet: " + conversationItemKey);
 
 
-            Debug.Log("CONVERSATION ITEM ID USING KEY: "+conversation.items.Find(x => x.id.Equals(conversationItemKey)).id);
+            Debug.Log("CONVERSATION ITEM ID USING KEY: "+conversation.items.Find(x => x.id.Equals(conversationItemKey)).id); //Key is 1.1
             var ourItem = conversation.items.Find(x => x.id.Equals(conversationItemKey)); 
             var ourItemPosition = conversation.items.IndexOf(ourItem);
-            Debug.Log("CONVERSATION ITEM POSITION: "+ourItemPosition);
-            if ( ourItemPosition <= 0) {
-                ourItemPosition = 0;
+            Debug.Log("CONVERSATION ITEM POSITION: "+ourItemPosition);  //SET TO 1.0
+            if ( ourItemPosition <= 0 || ourItemPosition >= conversation.items.Count) { 
+                ourItemPosition = 0; //COMMENTED OUT
+                Debug.Log("Invalid ourItemPosition: " + ourItemPosition);
             }
 
             ConversationPiece originalPiece = conversation.items[ourItemPosition];

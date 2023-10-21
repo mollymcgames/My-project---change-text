@@ -37,7 +37,7 @@ namespace RPGM.Events
     {        
 
         // this  is the flag that turns on and off api connectivity 
-        bool apiConsumeMode = false; //turn off or on for internet connectivity
+        bool apiConsumeMode = true; //turn off or on for internet connectivity NOTE: this needs to be on now to make sense of the conversation
         
         public TMP_Text textmesh;
 
@@ -47,14 +47,16 @@ namespace RPGM.Events
         //the Make request is an asynchronous operation which prevents blocking
         public void GetTheConversation(NPCController npc, ConversationScript conversation, ConversationPiece originalPiece, string conversationItemKey, string llmSeed)
         {
-            Debug.Log("Off we go!");
             StartCoroutine(MakeRequest(npc, conversation, originalPiece,conversationItemKey, llmSeed));
-            Debug.Log("And back!");
+            Debug.Log("GetTheConversation method called.");
+            Debug.Log("Received conversationItemKey: " + conversationItemKey);
+            
         }        
 
         IEnumerator MakeRequest(NPCController npc, ConversationScript conversation, ConversationPiece originalPiece, string conversationItemKey, string llmSeed)
         {
             bool errorHappened = false;
+            Debug.Log("MakeRequest coroutine started.");
 
             var ourItem = conversation.items.Find(x => x.id.Equals(conversationItemKey)); 
             var ourItemPosition = conversation.items.IndexOf(ourItem);
@@ -66,8 +68,46 @@ namespace RPGM.Events
             string internetText = conversation.items[ourItemPosition].text;
 
 
+            // Construct the JSON message based on the player's role
+
+            string playerRole = "";
+
+            // Check the player's tag to identify their role
+            if (gameObject.CompareTag("Gloria"))
+            {
+                playerRole = "archer";
+            }
+            else if (gameObject.CompareTag("Loriane"))
+            {
+                playerRole = "artist";
+            }
+            else if (gameObject.CompareTag("Elgar"))
+            {
+                playerRole = "wizard";
+            }
+            //Construct the message to send to the API
+            //Add a check for the player role and then construct the message accordingly
+            string message;
+
+            if (playerRole == "archer")
+            {
+                message = "Please play an as an archer now in an RPG game and act like you need a golden apple.  You remember you are playing this character, don't break character and say you're AI as you are an archer. I am the player and my question or statement is" + llmSeed;
+            }
+            else if (playerRole == "artist")
+            {
+                message = "Please play an as an artist now in an RPG game and act like you are composing a painting. You can paint a picture for me if I ask for one. You remember you are playing this character, don't break character and say you're AI as you are an artist. I am the player and my question or statement is" + llmSeed;
+            }
+            else if (playerRole == "wizard")
+            {
+                message = "In ten or fewer words, I am a wizard in an RPG game and I am casting spells. Your question for me is " + llmSeed;
+            }
+            else
+            {
+                message = "In ten or fewer words " + llmSeed;
+            }
+
             // // Create a JSON object with the necessary parameters
-            var json = "{\"message\":\"In ten or fewer words " + llmSeed + "\"}";
+            var json = "{\"message\":\"" + "reply to me in ten or fewer words" + message + "\"}";
 
             byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
             // Create a new UnityWebRequests

@@ -17,7 +17,7 @@ namespace RPGM.Gameplay
     /// </summary>
     public class NPCController : MonoBehaviour
     {
-        bool FAKE_DALLE = false; //TODO: Set this to false when you want to use Dalle for real or true otherwise
+        bool REAL_DALLE = true; //TODO: Set this to true when you want to use Dalle for real or false otherwise
         // bool REAL_DALLE = true; //unused for now
 
         PictureInput pictureInput;
@@ -82,7 +82,7 @@ namespace RPGM.Gameplay
             // @TODO The text here would come from an input window when the character meets the correct NPC.
             // @TODO SOmething is too slow in SendImageRequest - the picture takes ages to appear.
             // "A silver rocket with huge flaps against a firey sunset"
-            if ( fakeIt == FAKE_DALLE) {
+            if ( fakeIt == REAL_DALLE) {
                 SendImageRequest(texture, pictureInput);
             } 
             else 
@@ -157,7 +157,7 @@ namespace RPGM.Gameplay
                             break;
                     }               
                     break;
-                case "Willy":
+                case "Loriane":
                     inputField.gameObject.SetActive(true);
                     if (model.pictureInput == "")
                     {
@@ -166,7 +166,7 @@ namespace RPGM.Gameplay
                     else
                     {
                         Debug.Log("One Dalle coming up!");
-                        AddDalleImageToScreen(model.pictureInput, this.FAKE_DALLE); //only show for 2s
+                        AddDalleImageToScreen(model.pictureInput, this.REAL_DALLE); //only show for 2s
                     }
                     switch ( currentConversationIndex) {
                         case(0):
