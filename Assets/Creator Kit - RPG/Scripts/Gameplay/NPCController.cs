@@ -37,7 +37,7 @@ namespace RPGM.Gameplay
         public GameObject inputField;
     
         private bool isInteracting;
-        // public TMP_InputField inputField;
+
 
         
 

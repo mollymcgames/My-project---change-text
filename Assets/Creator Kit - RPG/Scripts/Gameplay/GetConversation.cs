@@ -99,7 +99,7 @@ namespace RPGM.Events
             }
             else if (playerRole == "wizard")
             {
-                message = "In ten or fewer words, I am a wizard in an RPG game and I am casting spells. Your question for me is " + llmSeed;
+                message = "Please play as a wizard in an RPG game and act like you are casting a spell but need a magic pot to complete the spell. You remember you are playing this character, don't break character and say you're AI as you are a wizard. I am the player and my question or statement is " + llmSeed;
             }
             else
             {
@@ -154,7 +154,7 @@ namespace RPGM.Events
             ConversationPiece newPiece = new ConversationPiece();           
             newPiece.id = originalPiece.id;
             newPiece.image = originalPiece.image;
-            newPiece.audio = originalPiece.audio;
+            // newPiece.audio = originalPiece.audio;
             newPiece.quest = originalPiece.quest;
             newPiece.options = originalPiece.options;
 

@@ -76,14 +76,14 @@ namespace RPGM.Events
                 var ev = Schedule.Add<StopTalking>(2);
                 ev.animator = animator;
             }
-
-            if (ci.audio != null)
-            {
-                UserInterfaceAudio.PlayClip(ci.audio);
-            }
+            //REMOVED NPC AUUDIO here
+            // if (ci.audio != null)
+            // {
+            //     UserInterfaceAudio.PlayClip(ci.audio);
+            // }
 
             //speak some gibberish at two speech syllables per word.
-            UserInterfaceAudio.Speak(gameObject.GetInstanceID(), ci.text.Split(' ').Length * 2, 1);
+            // UserInterfaceAudio.Speak(gameObject.GetInstanceID(), ci.text.Split(' ').Length * 2, 1);
 
             //if this conversation item has an id, register it in the model.
             Debug.Log("ConversationID: " + ci.id);
