@@ -21,6 +21,7 @@ namespace RPGM.Events
         public ConversationScript conversation;
         public string conversationItemKey;
         public string inputName = "FirstTime";
+        public GameObject inputField;
 
         public override void Execute()
         {
@@ -148,6 +149,12 @@ namespace RPGM.Events
                 };
 
             }
+
+            if ( npc.tag == "Loriane" && inputField != null && (conversationItemKey == "1.2" || conversationItemKey == "1.1"))
+            {
+                inputField.gameObject.SetActive(true);
+            }
+            else inputField.gameObject.SetActive(false);
 
             //if conversation has an icon associated, this will display it.
             model.dialog.SetIcon(ci.image); 

@@ -23,6 +23,7 @@ namespace RPGM.Events
         public NPCController npc;
         public GameObject gameObject;
         Quest activeQuest = null;
+        public GameObject inputField;
 
         public string llmSeed;
 
@@ -50,7 +51,7 @@ namespace RPGM.Events
             Debug.Log("ORIGINAL ITEM TEXT: "+originalPiece.text);
             
             GetConversation netConversation = gameObject.AddComponent<GetConversation>();
-            netConversation.GetTheConversation(npc, conversation, originalPiece, conversationItemKey, llmSeed); //kicks off the conversation
+            netConversation.GetTheConversation(npc, conversation, originalPiece, conversationItemKey, llmSeed, inputField); //kicks off the conversation
             Debug.Log("Done creepy internet stuff...");
 
         }

@@ -90,7 +90,7 @@ namespace RPGM.Gameplay
         {
             rigidbody2D = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            pixelPerfectCamera = GameObject.FindObjectOfType<PixelPerfectCamera>();
+            pixelPerfectCamera = GameObject.FindFirstObjectByType<PixelPerfectCamera>();
         }
     }
 }
