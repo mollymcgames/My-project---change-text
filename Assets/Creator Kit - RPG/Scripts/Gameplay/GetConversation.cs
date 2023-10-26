@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine.UI;
 using NUnit;
 using CandyCoded.env;
-
+using OpenAI;
 namespace RPGM.Events
 {
     // CUSTOM BITS
@@ -42,7 +42,7 @@ namespace RPGM.Events
         public TMP_Text textmesh;
 
         public string prompt = "Your Prompt Here";
-
+        private string internetText = "";
 
         //the Make request is an asynchronous operation which prevents blocking
         public void GetTheConversation(NPCController npc, ConversationScript conversation, ConversationPiece originalPiece, string conversationItemKey, string llmSeed, GameObject inputField)
@@ -65,9 +65,6 @@ namespace RPGM.Events
                 ourItemPosition = 0;
             }
             Debug.Log("Conversation seed: " + llmSeed);
-            //if not using the internet this text should be used
-            string internetText = conversation.items[ourItemPosition].text;
-
 
             // Construct the JSON message based on the player's role
 
@@ -108,47 +105,36 @@ namespace RPGM.Events
             }
 
             // // Create a JSON object with the necessary parameters
-            var json = "{\"message\":\"" + "reply to me in ten or fewer words " + message + "\"}";
+            // Meta chat version:
+            // var json = "{\"message\":\"" + "reply to me in ten or fewer words " + message + "\"}";
+
+            // ChatGPT chat version:
+            // var json = "{\"model\": \"gpt-3.5-turbo\",\"temperature\": 1.0,\"messages\":[{\"role\":\"user\",\"content\": \"reply to me in ten or fewer words " + message +"\"}]}";
+            // ChatGPT OPENAI API chat version:        
+            var json = "reply to me in ten or fewer words " + message;
+            var newMessage = new ChatMessage()
+            {
+                Role = "user",
+                Content = json
+            };   
 
             byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
             // Create a new UnityWebRequests
             Debug.Log("Asking this message: " + json);
             if (apiConsumeMode)
             {
-                // var request = new UnityWebRequest("https://meta-llama-fast-api.p.rapidapi.com/chat", "POST");
-                var request = new UnityWebRequest("https://meta-llama-fast-api.p.rapidapi.com/mistralchat", "POST"); //try this one if the other isnt working
+                List<ChatMessage> messages = new List<ChatMessage>();
+                messages.Add(newMessage);
 
-                request.uploadHandler = (UploadHandler)new UploadHandlerRaw(body);
-                request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
+                SendReply(messages);
 
-                string api_key;
-                bool apiKeyExists = env.TryParseEnvironmentVariable("API_KEY", out api_key);
-
-                if (apiKeyExists)
-                {
-                    request.SetRequestHeader("X-RapidAPI-Key", api_key);
-                }
-                // request.SetRequestHeader("X-RapidAPI-Key", env.TryParseEnvironmentVariable("API_KEY", out api_key));
-
-                // Send the request to the internet. This is the async operation
-                //op is the handle
-                //WaitWhile is a non blocking while loop. So while done is not true it loops in a non blocking way to free up the scheduler to do other things.
-                UnityWebRequestAsyncOperation op = request.SendWebRequest();
-                yield return new WaitWhile(() => op.isDone == false);
-                Debug.Log("RESPONSE: " + request.downloadHandler.text);
-
-                if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    errorHappened = true;
-                    internetText = request.error;
-                }
-                else
-                {
-                    internetText = request.downloadHandler.text;
-                    // Replace "\n\n" or "\N\N" with a space
-                    internetText = internetText.Replace("\n", "").Replace("<s>", "").Replace("</s>", "").Replace("\\n", "").Replace("\\", "");
-                }
+                yield return new WaitWhile(() => internetText == "");
+                // yield return true;
+            } 
+            else 
+            {
+                //if not using the internet this text should be used
+                internetText = conversation.items[ourItemPosition].text;
             }
 
             ConversationPiece newPiece = new ConversationPiece();
@@ -186,6 +172,18 @@ namespace RPGM.Events
             ev.gameObject = gameObject;
             ev.conversationItemKey = conversationItemKey;
             ev.inputField = inputField;
+        }
+
+        private async void SendReply(List<ChatMessage> messages)
+        {
+                OpenAIApi openai = new OpenAIApi();
+                var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
+                {
+                    Model = "gpt-3.5-turbo-0613",
+                    Messages = messages
+                });
+
+                internetText = completionResponse.Choices[0].Message.Content;
         }
 
     }
