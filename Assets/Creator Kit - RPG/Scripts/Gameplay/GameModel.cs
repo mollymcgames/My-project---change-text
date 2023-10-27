@@ -15,6 +15,7 @@ namespace RPGM.Gameplay
     public class GameModel
     {
         public string pictureInput = null;
+        public string textInput = null;
 
         public CharacterController2D player;
         public DialogController dialog;

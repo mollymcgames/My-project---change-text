@@ -34,6 +34,7 @@ namespace RPGM.Gameplay
         GameModel model = Schedule.GetModel<GameModel>();
 
         public GameObject inputField;
+        public GameObject inputFieldText;
     
         private bool isInteracting;
 
@@ -41,6 +42,7 @@ namespace RPGM.Gameplay
         {
             quests = gameObject.GetComponentsInChildren<Quest>();
             inputField.gameObject.SetActive(false);
+            inputFieldText.gameObject.SetActive(false);
         }
 
         public void OnCollisionEnter2D(Collision2D collision)
@@ -53,29 +55,23 @@ namespace RPGM.Gameplay
                 case "Gloria":
                     Debug.Log("I'm touching Gloria");
                     inputField.gameObject.SetActive(false);
+                    inputFieldText.gameObject.SetActive(false);
                     break;
                 case "Elgar":
                     inputField.gameObject.SetActive(false);
+                    inputFieldText.gameObject.SetActive(false);
                     Debug.Log("I'm touching Elgar)");
                     break;
                 case "Joe":
+                    inputFieldText.gameObject.SetActive(true);
                     Debug.Log("I'm touching Joe");
-                    switch ( currentConversationIndex) {
-                        case(0):
-                            conversationKey = "";
-                            break;
-                        case(1):
-                            conversationKey = "1.1";
-                            break;
-                        case(2):
-                            conversationKey = "1.2";
-                            break;
-                        default:
-                            conversationKey = "";
-                            break;
-                    }               
+                    var showGPTConv = Schedule.Add<Events.ShowGPTConversation>();
+                    showGPTConv.npc = this;
+                    showGPTConv.gameObject = gameObject;
+                    showGPTConv.inputField = inputFieldText;
                     break;
                 case "Loriane":
+                    inputFieldText.gameObject.SetActive(false);
                     inputField.gameObject.SetActive(false);
                     switch ( currentConversationIndex) {
                         case(0):
