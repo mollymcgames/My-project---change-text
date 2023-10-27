@@ -83,6 +83,10 @@ namespace RPGM.Events
             {
                 playerRole = "wizard";
             }
+            else if (gameObject.CompareTag("Joe"))
+            {
+                playerRole = "Gambler";
+            }
             //Construct the message to send to the API
             //Add a check for the player role and then construct the message accordingly
             string message;
@@ -98,6 +102,10 @@ namespace RPGM.Events
             else if (playerRole == "wizard")
             {
                 message = "Please play as a wizard in an RPG game and act like you are casting a spell but need a magic pot to complete the spell. You remember you are playing this character, don't break character and say you're AI as you are a wizard. I am the player and my question or statement is " + llmSeed;
+            }
+            else if (playerRole == "Gambler")
+            {
+                message = "Please play an as a gambler now in an RPG game and act like I can play a game of higher or lower with you from 1 to 3. You remember you are playing this character, don't break character and say you're AI as you are a gambler in the game. I am the player and my number guess or statement is " + llmSeed + "If I guess the number correctly you tell me I win but if it's higher or lower than the number you are thinking of you tell me I should guess again.";
             }
             else
             {
