@@ -17,8 +17,6 @@ public class ChatGptHelper : MonoBehaviour
     private static bool chatTextComplete = false;
     private static string dialogueText = "";
 
-    List<ChatMessage> messages = new List<ChatMessage>();
-
     public void ResetChat() 
     {
         chatTextComplete = false;
@@ -42,6 +40,8 @@ public class ChatGptHelper : MonoBehaviour
 
     public async void GoGetChatGPTText(string textinput) 
     {
+        GameModel model = Schedule.GetModel<GameModel>();
+
         dialogueText = "";
 
         var newMessage = new ChatMessage
@@ -49,14 +49,14 @@ public class ChatGptHelper : MonoBehaviour
             Content = "In ten or fewer words " + textinput,
             Role = "user"
         };
-        messages.Add(newMessage);
+        model.messages.Add(newMessage);
         var openai = new OpenAIApi();
 
         Debug.Log("sending to internet....");
         var response = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
         {
             Model = "gpt-3.5-turbo-0613",
-            Messages = messages
+            Messages = model.messages
         });
         
         dialogueText = response.Choices[0].Message.Content; 
@@ -66,7 +66,7 @@ public class ChatGptHelper : MonoBehaviour
             Content = dialogueText,
             Role = "assistant"
         }; 
-        messages.Add(chatMessage);
+        model.messages.Add(chatMessage);
         Debug.Log("dialogueText: " + dialogueText);
 
         chatTextComplete = true;

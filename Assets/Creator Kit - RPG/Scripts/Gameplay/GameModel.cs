@@ -5,6 +5,7 @@ using RPGM.Core;
 using RPGM.Gameplay;
 using RPGM.UI;
 using UnityEngine;
+using OpenAI;
 
 namespace RPGM.Gameplay
 {
@@ -16,6 +17,9 @@ namespace RPGM.Gameplay
     {
         public string pictureInput = null;
         public string textInput = null;
+
+        public List<ChatMessage> messages = new List<ChatMessage>();
+
 
         public CharacterController2D player;
         public DialogController dialog;
