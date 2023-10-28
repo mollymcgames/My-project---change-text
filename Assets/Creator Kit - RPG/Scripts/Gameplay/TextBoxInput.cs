@@ -23,8 +23,10 @@ public class TextBoxInput : MonoBehaviour
 
     public string dialogueText = "";
 
-    private ChatGptHelper cgh;
 
+
+    private ChatGptHelper cgh;    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -39,23 +41,8 @@ public class TextBoxInput : MonoBehaviour
 
     public async void CaptureTextInput(string s)
     {
-        textinput = s;
-        Debug.Log("Input string: " + textinput);
-
         GameModel model = Schedule.GetModel<GameModel>();
         model.textInput = textinput;
-
-        Debug.Log("One text box for joe coming up!");
-        inputFieldText.gameObject.SetActive(false);
-
-
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
-        inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC        
-
-        await SortOutChatText(textinput);
-
-        // StartCoroutine(MakeRequest());
-        model.textInput = dialogueText;
 
         //calculate a position above the player's sprite.
         var position = gameObject.transform.position;
@@ -64,16 +51,26 @@ public class TextBoxInput : MonoBehaviour
         {
             position += new Vector3(1.9f, 2 * sr.size.y + 0.2f, 0);
         }
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
+        inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC  
+
+        textinput = s;
+        Debug.Log("Input string: " + textinput);
+
+        Debug.Log("One text box for joe coming up!");
+        inputFieldText.gameObject.SetActive(false);
+
+        await SortOutChatText(textinput);
+        model.textInput = dialogueText;
 
         //show the dialog
-        Debug.Log("Sprite position: " + position);
         model.dialog.Show(position, dialogueText);
         model.textInput = "";
         dialogueText = "";
         inputFieldText.gameObject.GetComponent<TMP_InputField>().text = "";
     }
 
-    private async Task SortOutChatText(string inputText)
+    public async Task SortOutChatText(string inputText)
     {
         Debug.Log("Asking about this: "+ inputText);
         GameObject gameObject = new GameObject("ChatGptHelper");

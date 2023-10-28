@@ -71,34 +71,4 @@ public class ChatGptHelper : MonoBehaviour
 
         chatTextComplete = true;
     }
-
-    // IEnumerator MakeRequest()
-    // {
-    //     var newMessage = new ChatMessage
-    //     {
-    //         Content = textinput,
-    //         Role = "user"
-    //     };
-    //     List<ChatMessage> messages = new List<ChatMessage>();
-    //     messages.Add(newMessage);
-    //     SendTextRequest(messages);
-    //     Debug.Log("MakeRequest coroutine started.");
-    //     yield return new WaitUntil(() => dialogueText == "");  //WaitWhile is the opposite of WaitUntil
-    // }
-
-    // private async void SendTextRequest(List<ChatMessage> messages)
-    // {
-    //     var openai = new OpenAIApi();
-
-    //     Debug.Log("sending to internet....");
-    //     var response = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
-    //     {
-    //         Model = "gpt-3.5-turbo-0613",
-    //         Messages = messages
-    //     });
-
-    //     dialogueText = response.Choices[0].Message.Content;    
-    // }
-
-
 }
