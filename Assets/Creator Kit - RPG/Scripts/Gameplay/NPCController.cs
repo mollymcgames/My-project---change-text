@@ -65,10 +65,6 @@ namespace RPGM.Gameplay
                 case "Joe":
                     inputFieldText.gameObject.SetActive(true);
                     Debug.Log("I'm touching Joe");
-                    var showGPTConv = Schedule.Add<Events.ShowGPTConversation>();
-                    showGPTConv.npc = this;
-                    showGPTConv.gameObject = gameObject;
-                    showGPTConv.inputField = inputFieldText;
                     break;
                 case "Loriane":
                     inputFieldText.gameObject.SetActive(false);

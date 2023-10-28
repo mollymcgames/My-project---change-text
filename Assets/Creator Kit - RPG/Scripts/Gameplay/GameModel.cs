@@ -22,6 +22,7 @@ namespace RPGM.Gameplay
         public InputController input;
         public InventoryController inventoryController;
         public MusicController musicController;
+        
 
         Dictionary<GameObject, HashSet<string>> conversations = new Dictionary<GameObject, HashSet<string>>();
 
@@ -29,6 +30,7 @@ namespace RPGM.Gameplay
         Dictionary<string, Sprite> inventorySprites = new Dictionary<string, Sprite>();
 
         HashSet<string> storyItems = new HashSet<string>();
+        
 
         public IEnumerable<string> InventoryItems => inventory.Keys;
 

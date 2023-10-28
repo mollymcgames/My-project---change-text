@@ -19,10 +19,11 @@ public class TextBoxInput : MonoBehaviour
     public GameObject canvas;
     public GameObject inputFieldText;
 
-    private string textinput;
+    private string textinput = "";
 
     public string dialogueText = "";
 
+    private ChatGptHelper cgh;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,7 @@ public class TextBoxInput : MonoBehaviour
 
     }
 
-    public void CaptureTextInput(string s)
+    public async void CaptureTextInput(string s)
     {
         textinput = s;
         Debug.Log("Input string: " + textinput);
@@ -50,18 +51,11 @@ public class TextBoxInput : MonoBehaviour
 
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
         inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC        
-    
-        StartCoroutine(MakeRequest());
-        model.textInput = dialogueText;
-        if(dialogueText == "")
-        {
-            dialogueText = "I don't know what to say to that.";
-        }
 
-        // while (dialogueText == "")
-        // {
-        //     Debug.Log("Waiting for dialogue text to be set...");
-        // }
+        await SortOutChatText(textinput);
+
+        // StartCoroutine(MakeRequest());
+        model.textInput = dialogueText;
 
         //calculate a position above the player's sprite.
         var position = gameObject.transform.position;
@@ -73,35 +67,20 @@ public class TextBoxInput : MonoBehaviour
 
         //show the dialog
         Debug.Log("Sprite position: " + position);
-        model.dialog.Show(position, dialogueText);        
+        model.dialog.Show(position, dialogueText);
+        model.textInput = "";
+        dialogueText = "";
+        inputFieldText.gameObject.GetComponent<TMP_InputField>().text = "";
     }
 
-    IEnumerator MakeRequest()
+    private async Task SortOutChatText(string inputText)
     {
-        var newMessage = new ChatMessage
-        {
-            Content = textinput,
-            Role = "user"
-        };
-        List<ChatMessage> messages = new List<ChatMessage>();
-        messages.Add(newMessage);
-        SendTextRequest(messages);
-        Debug.Log("MakeRequest coroutine started.");
-        yield return new WaitUntil(() => dialogueText == "");  //WaitWhile is the opposite of WaitUntil
+        Debug.Log("Asking about this: "+ inputText);
+        GameObject gameObject = new GameObject("ChatGptHelper");
+        cgh = gameObject.AddComponent<ChatGptHelper>();        
+        Task<string> getDialogueText = cgh.GetChatText(inputText);
+        dialogueText = await getDialogueText;
+        Debug.Log("Returned Dialogue Text: " + dialogueText);
+        cgh.ResetChat();
     }
-
-    private async void SendTextRequest(List<ChatMessage> messages)
-    {
-        var openai = new OpenAIApi();
-
-        Debug.Log("sending to internet....");
-        var response = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
-        {
-            Model = "gpt-3.5-turbo-0613",
-            Messages = messages
-        });
-
-        dialogueText = response.Choices[0].Message.Content;    
-    }
-
 }
