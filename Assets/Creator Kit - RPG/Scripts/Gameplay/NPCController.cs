@@ -27,6 +27,7 @@ namespace RPGM.Gameplay
 
         public ConversationScript[] conversations;
 
+
         Quest activeQuest = null;
 
         Quest[] quests;
@@ -37,6 +38,11 @@ namespace RPGM.Gameplay
 
         public GameObject inputField;
         public GameObject inputFieldText;
+
+        public GameObject rpgDialog;
+
+        public TMP_Text rpgDialogText; // Reference to the UI text box
+
     
         private bool isInteracting;
 
@@ -111,12 +117,14 @@ Start Game.";
                     position += new Vector3(1.9f, 2 * sr.size.y + 0.2f, 0);
                 }
                 Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
-                inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC        
+                // inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC        
                                         
                 model.dialog.Show(position, "Hold on, starting your RPG!");
                 await SortOutChatText(setupRpgGame);
                 model.textInput = dialogueText;    
-                model.dialog.Show(position, dialogueText);       
+                rpgDialogText.text = dialogueText;
+                rpgDialog.SetActive(true);
+                // model.dialog.Show(position, dialogueText);       
                 model.firstTimeRpg = false; 
             }
         }

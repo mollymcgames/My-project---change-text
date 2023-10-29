@@ -9,7 +9,7 @@ namespace RPGM.UI
 {
 
     [ExecuteInEditMode]
-    public class DialogLayout : MonoBehaviour
+    public class DialogLayoutCopy : MonoBehaviour
     {
         public float padding = 0.25f;
         public SpriteRenderer iconRenderer;
@@ -90,8 +90,6 @@ namespace RPGM.UI
 
         void SetDialogText(string text)
         {
-
-            textMeshPro.GetComponent<RectTransform>().sizeDelta = new Vector2(9.0f, 1.4f);
             textMeshPro.text = text;
             ScaleBackgroundToFitText();
         }

@@ -49,7 +49,12 @@ public class TextBoxInput : MonoBehaviour
         var sr = gameObject.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            position += new Vector3(1.9f, 2 * sr.size.y + 0.2f, 0);
+
+            // Set the width to be three times the current width and the height to be 2
+            sr.size = new Vector2(3 * sr.size.x, 2);
+            // Adjust the position from the left
+            position += new Vector3(-2.5f, 2 * sr.size.y + 0.2f, 0);            
+            // position += new Vector3(0f, 2 * sr.size.y + 0.2f, 0);
         }
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
         inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC  
