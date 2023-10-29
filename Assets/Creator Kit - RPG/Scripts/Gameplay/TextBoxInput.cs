@@ -23,10 +23,8 @@ public class TextBoxInput : MonoBehaviour
 
     public string dialogueText = "";
 
+    private ChatGptHelper cgh;
 
-
-    private ChatGptHelper cgh;    
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +42,8 @@ public class TextBoxInput : MonoBehaviour
         GameModel model = Schedule.GetModel<GameModel>();
         model.textInput = textinput;
 
+        model.rpgDialog.SetActive(false);
+
         //calculate a position above the player's sprite.
         var position = gameObject.transform.position;
         var sr = gameObject.GetComponent<SpriteRenderer>();
@@ -53,11 +53,11 @@ public class TextBoxInput : MonoBehaviour
             // Set the width to be three times the current width and the height to be 2
             sr.size = new Vector2(3 * sr.size.x, 2);
             // Adjust the position from the left
-            position += new Vector3(-2.5f, 2 * sr.size.y + 0.2f, 0);            
             // position += new Vector3(0f, 2 * sr.size.y + 0.2f, 0);
         }
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
-        inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC  
+        // Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
+        // inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC  
+        model.dialog.Show(position, "Getting next RPG instructions!");
 
         textinput = s;
         Debug.Log("Input string: " + textinput);
@@ -69,19 +69,27 @@ public class TextBoxInput : MonoBehaviour
         model.textInput = dialogueText;
 
         //show the dialog
-        model.dialog.Show(position, dialogueText);
+        // model.dialog.Show(position, dialogueText);
+        model.rpgDialogText.text = dialogueText;
+        model.rpgDialog.SetActive(true);
+
         model.textInput = "";
         dialogueText = "";
         inputFieldText.gameObject.GetComponent<TMP_InputField>().text = "";
+        inputFieldText.gameObject.SetActive(true);
     }
 
     public async Task SortOutChatText(string inputText)
     {
-        Debug.Log("Asking about this: "+ inputText);
+        Debug.Log("Asking about this: " + inputText);
         GameObject gameObject = new GameObject("ChatGptHelper");
-        cgh = gameObject.AddComponent<ChatGptHelper>();        
+        cgh = gameObject.AddComponent<ChatGptHelper>();
         Task<string> getDialogueText = cgh.GetChatText(inputText);
         dialogueText = await getDialogueText;
+        // dialogueText = dialogueText.Replace("```", ""); //remove quotes from text
+        dialogueText = dialogueText.Replace("```", "").Replace("\\r\\n", "");
+        // dialogueText = dialogueText.Replace("```\\r\\n", ""); //remove quotes from text
+
         Debug.Log("Returned Dialogue Text: " + dialogueText);
         cgh.ResetChat();
     }

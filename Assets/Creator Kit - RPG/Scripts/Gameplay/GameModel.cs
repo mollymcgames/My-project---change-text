@@ -6,6 +6,7 @@ using RPGM.Gameplay;
 using RPGM.UI;
 using UnityEngine;
 using OpenAI;
+using TMPro;
 
 namespace RPGM.Gameplay
 {
@@ -17,13 +18,14 @@ namespace RPGM.Gameplay
     {
         public string pictureInput = null;
         public string textInput = null;
-
         public CharacterController2D player;
+        public GameObject rpgDialog;
+        public TMP_Text rpgDialogText; // Reference to the UI text box        public CharacterController2D player;
         public DialogController dialog;
         public InputController input;
         public InventoryController inventoryController;
         public MusicController musicController;
-        
+
         public List<ChatMessage> messages = new List<ChatMessage>();
         public bool firstTimeRpg = true;
 
@@ -33,7 +35,7 @@ namespace RPGM.Gameplay
         Dictionary<string, Sprite> inventorySprites = new Dictionary<string, Sprite>();
 
         HashSet<string> storyItems = new HashSet<string>();
-        
+
 
         public IEnumerable<string> InventoryItems => inventory.Keys;
 
