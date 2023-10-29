@@ -44,7 +44,6 @@ namespace RPGM.UI
             }
             else
             {
-                //there are no buttons, just Hide when required.
                 model.input.ChangeState(InputController.State.CharacterControl);
                 Hide();
             }

@@ -34,9 +34,6 @@ namespace RPGM.Events
             }
 
 
-            //show the dialog
-            Debug.Log("NPC info: " + npc);
-            Debug.Log("Sprite position: " + position);
             model.dialog.Show(position, model.textInput);
             var animator = gameObject.GetComponent<Animator>();
             if (animator != null)
@@ -46,63 +43,6 @@ namespace RPGM.Events
                 ev.animator = animator;
             }
 
-            //Create option buttons below the dialog.
-            // for (var i = 0; i < 2; i++)
-            // {
-            //     model.dialog.SetButton(i, "button");
-            // }
-
-            // //if user pickes this option, schedule an event to show the new option.
-            // model.dialog.onButton += (index) =>
-            // {
-            //     //hide the old text, so we can display the new.
-            //     model.dialog.Hide();
-
-
-
-            //     //Make sure it actually exists!
-            //     if (conversation.ContainsKey(next))
-            //     {
-            //         Debug.Log("Rescheduling myself");
-            //         //find the conversation piece object and setup a new event with correct parameters.
-            //         var c = conversation.Get(next);
-            //         Debug.Log("NEXT key: " + next);
-
-
-            //         //if quest is not finished then use seed text from the input buttons to drive the chat 
-            //         //but if the quest has finished then use the text thats hard coded in the quest script
-            //         if (ci.quest != null && ci.quest.isFinished)
-            //         {
-            //             var ev = Schedule.Add<ShowConversation>(0.25f);
-            //             ev.conversation = conversation;
-            //             ev.gameObject = gameObject;
-            //             ev.npc = npc;
-            //             ev.conversationItemKey = ci.options[index].text;
-
-            //         }
-            //         else
-            //         {
-            //             var ev = Schedule.Add<Events.GetConversationFromInternet>();
-            //             ev.conversation = conversation;
-            //             ev.gameObject = gameObject;
-            //             ev.npc = npc;
-            //             ev.conversationItemKey = next;
-            //             ev.llmSeed = ci.options[index].text;
-
-            //         }
-            //     }
-            //     else
-            //     {
-            //         Debug.LogError($"No conversation with ID:{next}");
-            //     }
-            // };
-
-
-
-            // else inputField.gameObject.SetActive(false);
-
-            //if conversation has an icon associated, this will display it.
-            // model.dialog.SetIcon(ci.image);
         }
 
     }

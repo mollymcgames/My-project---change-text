@@ -13,8 +13,6 @@ using Unity.VisualScripting;
 
 public class TextBoxInput : MonoBehaviour
 {
-    // bool REAL_DALLE = true; //TODO: Set this to true when you want to use Dalle for real or false otherwise
-    //                         // bool REAL_DALLE = true; //unused for now
 
     public GameObject canvas;
     public GameObject inputFieldText;
@@ -49,27 +47,19 @@ public class TextBoxInput : MonoBehaviour
         var sr = gameObject.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-
             // Set the width to be three times the current width and the height to be 2
             sr.size = new Vector2(3 * sr.size.x, 2);
-            // Adjust the position from the left
-            // position += new Vector3(0f, 2 * sr.size.y + 0.2f, 0);
         }
-        // Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
-        // inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC  
         model.dialog.Show(position, "Getting next RPG instructions!");
 
         textinput = s;
         Debug.Log("Input string: " + textinput);
 
-        Debug.Log("One text box for joe coming up!");
         inputFieldText.gameObject.SetActive(false);
 
         await SortOutChatText(textinput);
         model.textInput = dialogueText;
 
-        //show the dialog
-        // model.dialog.Show(position, dialogueText);
         model.rpgDialogText.text = dialogueText;
         model.rpgDialog.SetActive(true);
 
@@ -86,10 +76,7 @@ public class TextBoxInput : MonoBehaviour
         cgh = gameObject.AddComponent<ChatGptHelper>();
         Task<string> getDialogueText = cgh.GetChatText(inputText);
         dialogueText = await getDialogueText;
-        // dialogueText = dialogueText.Replace("```", ""); //remove quotes from text
         dialogueText = dialogueText.Replace("```", "").Replace("\\r\\n", "");
-        // dialogueText = dialogueText.Replace("```\\r\\n", ""); //remove quotes from text
-
         Debug.Log("Returned Dialogue Text: " + dialogueText);
         cgh.ResetChat();
     }

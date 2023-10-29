@@ -54,7 +54,7 @@ namespace RPGM.Gameplay
             {
                 if (items[i].id == originalConversationPiece.id)
                 {
-                    string cleanedText = newConversationPiece.text.Replace("\"", ""); //remove quotes from text
+                    string cleanedText = newConversationPiece.text.Replace("\"", "");
                     Debug.Log("+++Updating Conversation with new words:"+newConversationPiece.text);
                     newConversationPiece.text = cleanedText;
                     items[i] = newConversationPiece;

@@ -13,8 +13,6 @@ using CandyCoded.env;
 using OpenAI;
 namespace RPGM.Events
 {
-    // CUSTOM BITS
-    // A class to hold the JSON response
     [System.Serializable]
     public class Response
     {
@@ -26,8 +24,6 @@ namespace RPGM.Events
     {
         public string text;
     }
-
-    // END OF CUSTOM BITS
 
     /// <summary>
     /// This event will start a conversation with an NPC using a conversation script.
@@ -44,7 +40,6 @@ namespace RPGM.Events
         public string prompt = "Your Prompt Here";
         private string internetText = "";
 
-        //the Make request is an asynchronous operation which prevents blocking
         public void GetTheConversation(NPCController npc, ConversationScript conversation, ConversationPiece originalPiece, string conversationItemKey, string llmSeed, GameObject inputField)
         {
             StartCoroutine(MakeRequest(npc, conversation, originalPiece, conversationItemKey, llmSeed, inputField));
@@ -127,7 +122,6 @@ namespace RPGM.Events
             };   
 
             byte[] body = System.Text.Encoding.UTF8.GetBytes(json);
-            // Create a new UnityWebRequests
             Debug.Log("Asking this message: " + json);
             if (apiConsumeMode)
             {
@@ -137,7 +131,6 @@ namespace RPGM.Events
                 SendReply(messages);
 
                 yield return new WaitWhile(() => internetText == "");
-                // yield return true;
             } 
             else 
             {
@@ -148,7 +141,6 @@ namespace RPGM.Events
             ConversationPiece newPiece = new ConversationPiece();
             newPiece.id = originalPiece.id;
             newPiece.image = originalPiece.image;
-            // newPiece.audio = originalPiece.audio;
             newPiece.quest = originalPiece.quest;
             newPiece.options = originalPiece.options;
 
@@ -172,7 +164,6 @@ namespace RPGM.Events
             }
 
             //Schedule the conversation to appear in the speech bubble
-            // TODO have another schedule conversation that says the character is having a think.. would need a new conversationpiece and a key 
             var ev = Schedule.Add<Events.ShowConversation>();
             ev.inputName = "bob-" + conversationItemKey;
             ev.conversation = conversation;

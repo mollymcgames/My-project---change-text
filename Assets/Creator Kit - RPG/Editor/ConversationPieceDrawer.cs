@@ -4,7 +4,6 @@ using UnityEngine;
 namespace RPGM.Gameplay
 {
 
-    // [CustomPropertyDrawer(typeof(ConversationPiece))]
     public class ConversationPieceDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -34,7 +33,6 @@ namespace RPGM.Gameplay
         }
     }
 
-    // [CustomPropertyDrawer(typeof(ConversationOption))]
     public class ConversationOptionDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

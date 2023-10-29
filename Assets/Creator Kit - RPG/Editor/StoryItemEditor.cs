@@ -131,7 +131,6 @@ namespace RPGM.EditorExtensions
             if (remove != null)
             {
                 var p = serializedObject.FindProperty("_requiredInventoryItems");
-                //I can't believe this API is real.
                 var removeIndex = -1;
                 for (var i = 0; i < p.arraySize; i++)
                 {
@@ -201,7 +200,6 @@ namespace RPGM.EditorExtensions
                         break;
                     }
                 }
-                //I can't believe this API is real.
                 p.DeleteArrayElementAtIndex(removeIndex);
                 p.DeleteArrayElementAtIndex(removeIndex);
                 si.dependentStoryItems.Remove(remove);
@@ -215,7 +213,6 @@ namespace RPGM.EditorExtensions
             if (remove != null)
             {
                 var p = serializedObject.FindProperty("_requiredStoryItems");
-                //I can't believe this API is real.
                 var removeIndex = -1;
                 for (var i = 0; i < p.arraySize; i++)
                 {

@@ -17,8 +17,6 @@ namespace RPGM.Gameplay
     /// </summary>
     public class NPCController : MonoBehaviour
     {
-        // bool REAL_DALLE = true; //TODO: Set this to true when you want to use Dalle for real or false otherwise
-        // bool REAL_DALLE = true; //unused for now
         private ChatGptHelper cgh;    
         public string dialogueText = "";
 
@@ -41,7 +39,7 @@ namespace RPGM.Gameplay
 
         public GameObject rpgDialog;
 
-        public TMP_Text rpgDialogText; // Reference to the UI text box
+        public TMP_Text rpgDialogText;
 
     
         private bool isInteracting;
@@ -116,17 +114,13 @@ Start Game.";
                 {
                     position += new Vector3(1.9f, 2 * sr.size.y + 0.2f, 0);
                 }
-                // Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position); // Get the NPC's position on the screen
-                // inputFieldText.transform.position = screenPosition + new Vector3(0, 150, 0); // Set the dialogue box's position to be above the NPC        
-                                        
+
                 model.dialog.Show(position, "Hold on, starting your RPG!");
                 await SortOutChatText(setupRpgGame);
-                dialogueText = dialogueText.Replace("```", "").Replace("\\r\\n", ""); //remove quotes from text
-                // dialogueText = dialogueText.Replace("```\\r\\n", ""); //remove quotes from text
+                dialogueText = dialogueText.Replace("```", "").Replace("\\r\\n", "");
                 model.textInput = dialogueText;    
                 rpgDialogText.text = dialogueText;
                 rpgDialog.SetActive(true);
-                // model.dialog.Show(position, dialogueText);       
                 model.firstTimeRpg = false; 
             }
         }
@@ -214,7 +208,7 @@ Start Game.";
         {
             Debug.Log("currentConversationIndex is now: "+currentConversationIndex);
             Debug.Log("Quest length: "+ quests.Length);
-            if (activeQuest == null && quests.Length > 0) { // quests MIGHT have to check for a count >0 rather than NULL
+            if (activeQuest == null && quests.Length > 0) {
                 Debug.Log("Handling conversation for NPC WITH a quest");
                 return conversations[0];
             } 

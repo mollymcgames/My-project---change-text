@@ -9,7 +9,6 @@ namespace RPGM.Gameplay
     /// </summary>
     public class GameController : MonoBehaviour
     {
-        //This model is public and can be modified in the inspector.
         //The reference is shared where needed, and Unity will deserialize
         //over the shared reference, rather than create a new instance.
         //To preserve this behaviour, this script must be deserialized last.
@@ -22,8 +21,6 @@ namespace RPGM.Gameplay
         {
             Debug.Log("GameController Setting Model...");
             Schedule.SetModel<GameModel>(model);
-            // textCanvas = GameObject.Find("InputField");
-            // textCanvas.SetActive(false);
         }
 
         protected virtual void Update()

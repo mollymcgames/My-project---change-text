@@ -20,7 +20,7 @@ namespace RPGM.Gameplay
         public string textInput = null;
         public CharacterController2D player;
         public GameObject rpgDialog;
-        public TMP_Text rpgDialogText; // Reference to the UI text box        public CharacterController2D player;
+        public TMP_Text rpgDialogText;
         public DialogController dialog;
         public InputController input;
         public InventoryController inventoryController;

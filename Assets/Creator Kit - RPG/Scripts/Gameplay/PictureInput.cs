@@ -13,7 +13,6 @@ using TMPro;
 public class PictureInput : MonoBehaviour
 {
     bool REAL_DALLE = true; //TODO: Set this to true when you want to use Dalle for real or false otherwise
-                            // bool REAL_DALLE = true; //unused for now
 
     public GameObject canvas;
     public GameObject inputField;
@@ -77,9 +76,6 @@ public class PictureInput : MonoBehaviour
     {
         // Create a new Texture2D object (for holding the generated picture) and then ask Dalle to make it.
         Texture2D texture = new Texture2D(2, 2);
-        // @TODO The text here would come from an input window when the character meets the correct NPC.
-        // @TODO SOmething is too slow in SendImageRequest - the picture takes ages to appear.
-        // "A silver rocket with huge flaps against a firey sunset"
         if (fakeIt == REAL_DALLE)
         {
             SendImageRequest(texture, pictureInput);
@@ -129,7 +125,7 @@ public class PictureInput : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitUntil(() => response.Data != null);  //WaitWhile is the opposite of WaitUntil
+            yield return new WaitUntil(() => response.Data != null);
         }
     }
 
@@ -154,7 +150,7 @@ public class PictureInput : MonoBehaviour
             {
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Access-Control-Allow-Origin", "*");
-                await request.SendWebRequest(); // Send the request // @TODO This is a blocking call, so we should probably use a coroutine here. //might not need await
+                await request.SendWebRequest();
 
                 while (!request.isDone) await Task.Yield();
 
