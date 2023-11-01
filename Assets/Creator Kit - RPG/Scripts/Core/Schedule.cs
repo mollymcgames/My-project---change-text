@@ -87,6 +87,13 @@ namespace RPGM.Core
         /// <typeparam name="T"></typeparam>
         static public void SetModel<T>(T instance) where T : class, new()
         {
+
+            if (instance == null)
+            {
+                Debug.Log("Instance is null. Cannot set model.");
+                return;
+            }  
+
             Debug.Log("Schedule setting model...");
             if ( modelSetAlready == false) 
             {
@@ -99,7 +106,7 @@ namespace RPGM.Core
             } else {
                 Debug.Log("No need to set model twice");
             }
-            Debug.Log("Model set dpome");
+            Debug.Log("Model set done");
         }
 
         /// <summary>
